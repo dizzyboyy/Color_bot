@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="MobileOptimized" content="176" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Telegram WebApp</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        function setThemeClass() {
+            document.documentElement.className = Telegram.WebApp.colorScheme;
+        }
+        Telegram.WebApp.onEvent('themeChanged', setThemeClass);
+        setThemeClass();
+
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--tg-theme-bg-color, #F6FFFE);
+            color: var(--tg-theme-text-color, #222222);
+            font-size: 16px;
+            margin: 0.5rem;
+            padding: 0;
+            color-scheme: var(--tg-color-scheme);
+        }
+
+        a {
+            color: var(--tg-theme-link-color, #2678b6);
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            font-size: 14px;
+            margin: 15px 0;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: var(--tg-theme-button-color, #50a8eb);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            cursor: pointer;
+        }
+
+        button[disabled] {
+            opacity: 0.6;
+            cursor: auto;
+            pointer-events: none;
+        }
+
+        button.close_btn {
+            /*position: fixed;*/
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 0;
+            margin: 0;
+            padding: 16px 20px;
+            text-transform: uppercase;
+        }
+
+        section {
+            padding: 15px 15px 65px;
+            text-align: center;
+        }
+
+        p {
+            margin: 40px 0 15px;
+        }
+
+        ul {
+            text-align: left;
+        }
+
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 7px;
+        }
+
+        pre {
+            background: rgba(0, 0, 0, .07);
+            border-radius: 4px;
+            padding: 4px;
+            margin: 7px 0;
+            word-break: break-all;
+            word-break: break-word;
+            white-space: pre-wrap;
+            text-align: left;
+        }
+
+        .dark pre {
+            background: rgba(255, 255, 255, .15);
+        }
+
+        .hint {
+            font-size: .8em;
+            color: var(--tg-theme-hint-color, #a8a8a8);
+        }
+
+        .ok {
+            color: green;
+        }
+
+        .err {
+            color: red;
+        }
+
+        #fixed_wrap {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            transform: translateY(100vh);
+        }
+
+        .viewport_border,
+        .viewport_stable_border {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: var(--tg-viewport-height, 100vh);
+            pointer-events: none;
+        }
+
+        .viewport_stable_border {
+            height: var(--tg-viewport-stable-height, 100vh);
+        }
+
+        .viewport_border:before,
+        .viewport_stable_border:before {
+            content: attr(text);
+            display: inline-block;
+            position: absolute;
+            background: gray;
+            right: 0;
+            top: 0;
+            font-size: 7px;
+            padding: 2px 4px;
+            vertical-align: top;
+        }
+
+        .viewport_stable_border:before {
+            background: green;
+            left: 0;
+            right: auto;
+        }
+
+        .viewport_border:after,
+        .viewport_stable_border:after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            border: 2px dashed gray;
+        }
+
+        .viewport_stable_border:after {
+            border-color: green;
+        }
+
+        small {
+            font-size: 12px;
+        }
+
+        .d-none{
+            display: none;
+        }
+
+        .elems-title{
+            font-size: 14px;
+        }
+
+
+        .elem{
+            font-family: 'Montserrat', sans-serif;
+            position: relative;
+            height: 170px;
+            transition: .15s;
+        }
+
+        .elem-wrapper:hover{
+            background-color:rgba(0,0,0,.1);
+            transition: .15s;
+        }
+
+        .color-block{
+            width: 90px;
+            height: 90px;
+            border-radius: 2px;
+        }
+
+        .elem *{
+            font-family: 'Montserrat', sans-serif;
+            margin:0 auto;
+        }
+
+        .elem p{
+            font-size: 10px;
+        }
+
+        .elem-main{
+            padding: 5px;
+            height: 150px;
+        }
+
+        .elem-main p{
+            margin:0;
+            text-align: left;
+        }
+        .color-block-main{
+            border-radius: 2px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-overlay{
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color:rgba(0,0,0,.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-window{
+            z-index: 9999;
+            width: 90%;
+            height:auto;
+            background-color:#fff;
+            border-radius: 5px;
+            padding: 1rem;
+        }
+
+        .modal-window p{
+            margin: 0;
+        }
+
+        .modal-color-title, .close-modal-window{
+            margin:0;
+            text-align: left;
+        }
+
+        .close-modal-window{
+            text-align: right;
+            cursor: pointer;
+            font-size: 18px;
+            background: none !important;
+        }
+
+        .modal-color-block{
+            width: 100%;
+            height: 50px;
+            border-radius: 2px;
+        }
+
+        #send-offer{
+            position: fixed;
+            left: 50%;
+            transform: translate(-50%, 0%);
+            bottom: 15px;
+            width: 90%;
+            z-index: 9998;
+        }
+
+        .main-color-rgb{
+            font-size: 11px;
+        }
+    </style>
+</head>
+
+<body>
+
+<section>
+    <div class="container">
+        <div class="row" id="app-wrapper">
+
+        </div>
+        
+    </div>
+</section>
+
+<div class="modal-overlay d-none">
+    <div class="modal-window">
+        <div class="row">
+            <div class="col-8 mt-1 mb-2">
+                <p id="modal-color-name" class="modal-color-title">Название цвета</p>
+            </div>
+            <div class="col-4 mt-1 mb-2">
+                <p class="close-modal-window">&times;</p>
+            </div>
+            <div class="col-12 mt-1 mb-2">
+                <div id="modal-color-rgb" class="modal-color-block" style="background-color:#433A46"></div>
+            </div>
+            <div class="col-12 mt-1 mb-2">
+                <label class="w-100">WhatsApp:<input class="form-control p-0 w-100" id="modal-form-phone" type="text" name=""> </label>
+            </div>
+            <div class="col-12 mt-1 mb-2">
+                <label class="w-100"><span id="meter_type">Количество (метры): </span><input class="form-control p-0 w-100" id="modal-form-count" type="number" name=""> </label>
+            </div>
+            <div class="col-12 mt-1 mb-2">
+                <label class="w-100">Дополнительно:<input class="form-control p-0 w-100" id="modal-form-dop" type="text" name=""> </label>
+            </div>
+            <div class="col-12 mt-1 mb-2">
+                <p class="m-0">Нужна ли перфорация?</p>
+                <select name="" id="modal-form-per" class="form-control w-100">
+                    <option value="Нет">Нет</option>
+                    <option value="Да">Да</option>
+                </select>
+            </div>
+            <div class="col-12">
+                <button id="modal-form-send" class="btn text-white" style="background-color:#433A46">Заказать</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var tg = window.Telegram.WebApp;
+
+    let appWrapper = document.querySelector("#app-wrapper")
+    let modalWindow = document.querySelector(".modal-overlay")
+    let modalCloseBtns = document.querySelectorAll(".close-modal-window")
+
+
+    function findGetParameter(parameterName) {
+        var result = null,
+        tmp = [];
+        var items = location.search.substr(1).split("&");
+        for (var index = 0; index < items.length; index++) {
+            tmp = items[index].split("=");
+            if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+        }
+        return result;
+    }
+
+    function urldecode(str) {
+     return decodeURIComponent((str+'').replace(/\+/g, '%20'));
+    }
+
+    let st = urldecode(findGetParameter('data'));
+    var res = eval(st);
+    let us = urldecode(findGetParameter('user'));
+    var user = eval(us);
+    console.log(urldecode(findGetParameter('data')));
+    console.log(res);
+
+    appWrapper.insertAdjacentHTML("afterbegin", `
+        <div class="col-12 mb-3 elem-wrapper">
+            <div class="elem-main row">
+                <div class="col-5 text-left">
+                    <p>${res[0].name}</p>
+                    <p class="main-color-rgb">RGB: (${res[0].rgb[0]}, ${res[0].rgb[1]}, ${res[0].rgb[2]})</p>
+                </div>
+                <div class="col-7">
+                    <div class="color-block-main" style="background-color:rgb(${res[0].rgb[0]}, ${res[0].rgb[1]}, ${res[0].rgb[2]})"></div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-12">
+                <h5 class="elems-title">Ниже Вы сможете увидеть наиболее близкие цвета к введенному Вами с параметрами CIE76 и CIEDE2000 соответственно.</h5>
+                <a href="https://clc.to/BotHelp">Инструкция пользователю</a>
+            </div>
+        </div>
+    `)
+
+    for (let i = 1; i < res.length; i++){
+        appWrapper.insertAdjacentHTML("beforeend", `
+            <div class="col-4 mb-3 elem-wrapper">
+                <div class="elem" color-name="${res[i].name}" color-name="${res[i].name}">
+                    <div class="color-block mt-3 mb-3" color-name="${res[i].name}" style="background-color:rgb(${res[i].rgb[0]}, ${res[i].rgb[1]}, ${res[i].rgb[2]})"></div>
+                    <p color-name="${res[i].name}" class="color-title">${res[i].name}</p>
+                    <p color-name="${res[i].name}" class="color-delta">${Math.round(res[i].c76 * 10) / 10} | ${Math.round(res[i].C2000 * 10) / 10}</p>
+                </div>
+            </div>
+        `)
+    }
+
+    let items = document.querySelectorAll(".elem")
+    let offerBtn = document.querySelector("#send-offer")
+    for (btn of modalCloseBtns){
+        btn.addEventListener("click", function(){
+            btn.parentNode.parentNode.parentNode.parentNode.classList.add("d-none")
+        })
+    }
+
+    for (item of items){
+        item.addEventListener("click", function(e){
+            console.log(e);
+            console.log(e.target.getAttribute('color-name'))
+            let color_name = e.target.getAttribute('color-name')
+            let rgb_color = '';
+            for (var i = res.length - 1; i >= 0; i--) {
+                if (res[i].name == color_name) {
+                    rgb_color = res[i].rgb;
+                } 
+            }
+            console.log(color_name)
+            console.log(rgb_color)
+            document.getElementById('modal-color-name').innerHTML = color_name;
+            document.getElementById('modal-color-rgb').style.backgroundColor  = "rgb("+rgb_color[0]+","+rgb_color[1]+","+rgb_color[2]+")"
+            modalWindow.classList.remove("d-none")
+        })
+    }
+    document.getElementById('modal-form-send').addEventListener("click", function(e){
+        let color_name = document.getElementById('modal-color-name').innerHTML;
+        let phone = document.getElementById('modal-form-phone').value;
+        let count = document.getElementById('modal-form-count').value;
+        let dop = document.getElementById('modal-form-dop').value;
+        let perf = document.getElementById('modal-form-per').value;
+        let result = [color_name,phone,count,dop,user,res[0].name, perf];
+        tg.sendData(JSON.stringify(result));
+    });
+
+    if (document.getElementById('modal-color-name').includes("эко-кожа") || document.getElementById('modal-color-name').includes("Эко-кожа")){
+        document.getElementById('meter_type').innerHTML = "Количество (пог. м)"
+    } else{
+        document.getElementById('meter_type').innerHTML = "Количество (м²)"
+    }
+
+
+
+</script>
+<script type="application/javascript">
+
+
+
+
+    Telegram.WebApp.ready();
+
+
+    const initData = Telegram.WebApp.initData || '';
+    const initDataUnsafe = Telegram.WebApp.initDataUnsafe || {};
+
+    Telegram.WebApp.MainButton
+        .setText('Закрыть окно')
+        .show()
+        .onClick(function(){ webviewClose(); });
+
+    Telegram.WebApp.onEvent('themeChanged', function() {
+        document.querySelector('#themeData').innerHTML = JSON.stringify(Telegram.WebApp.themeParams, null, 2);
+    });
+
+    function toggleMainButton(el) {
+        const mainButton = Telegram.WebApp.MainButton;
+        if (mainButton.isVisible) {
+            mainButton.hide();
+            el.innerHTML = 'Show Main Button';
+        } else {
+            mainButton.show();
+            el.innerHTML = 'Hide Main Button';
+        }
+    }
+
+    function webviewExpand() {
+        Telegram.WebApp.expand();
+    }
+
+    function webviewClose() {
+        Telegram.WebApp.close();
+    }
+
+    function sendTime(spam) {
+        const repeat = spam ? 10 : 1;
+        for (let i = 0; i < repeat; i++) {
+            Telegram.WebApp.sendData(new Date().toString());
+        }
+    }
+
+    function requestLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                document.querySelector('#locationData').innerHTML = '(' + position.coords.latitude + ', ' + position.coords.longitude + ')';
+            });
+        } else {
+            document.querySelector('#locationData').innerHTML = '(Geolocation is not supported in this browser)';
+        }
+
+        return false;
+    }
+
+    function requestVideo() {
+        if (navigator.mediaDevices) {
+            navigator.mediaDevices.getUserMedia({ audio: false, video: true }).then(function(stream) {
+                document.querySelector('#videoData').innerHTML = '(Access granted)';
+            });
+        } else {
+            document.querySelector('#videoData').innerHTML = '(Media devices is not supported in this browser)';
+        }
+        return false;
+    }
+
+    function requestAudio() {
+        if (navigator.mediaDevices) {
+            navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(function(stream) {
+                document.querySelector('#audioData').innerHTML = '(Access granted)';
+            });
+        } else {
+            document.querySelector('#audioData').innerHTML = '(Media devices is not supported in this browser)';
+        }
+        return false;
+    }
+</script>
+
+</body>
+</html>
